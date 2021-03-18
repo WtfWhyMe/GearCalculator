@@ -43,12 +43,6 @@ public class ResultFrame {
             GEAR_SELL_DEPOSIT = "Gear Sell Deposit (-)",
             PROFIT_LOSS = "Profit / Loss";
 
-    //Font labelFont = new Font("Monospaced", Font.PLAIN, 15);
-    //Font numberFont = new Font("Serif", Font.BOLD, 30);
-    //Font profitFont = new Font("Monospaced", Font.BOLD, 55);
-
-    //Border numberBorder = BorderFactory.createMatteBorder(0, 3, 0, 0, Color.DARK_GRAY);
-
     // default row number for ResultJPanel
     private static final int frameRows = 4;
 
@@ -80,7 +74,6 @@ public class ResultFrame {
 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         } else {
-            //JOptionPane.showMessageDialog(null, "Skipped Created JFrame");
             logger.log(Level.FINE, "Skipping creating GUI");
         }
 
@@ -120,7 +113,9 @@ public class ResultFrame {
             field.setBackground(Color.GREEN);
         }
 
-        //rightPanel.setBorder(numberBorder);
+        if (!isHeadless)
+            rightPanel.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, Color.DARK_GRAY));
+
         bottomPanel.setBackground(Color.ORANGE);
 
         if (!isHeadless) {
@@ -131,7 +126,6 @@ public class ResultFrame {
 
             frame.setVisible(true);
         } else {
-            //JOptionPane.showMessageDialog(null, "Skipped Created JFrame");
             logger.log(Level.FINE, "Skipped creating GUI");
         }
 
@@ -163,7 +157,8 @@ public class ResultFrame {
         logger.log(Level.FINE, "Creating Row");
 
         JLabel label = new JLabel( name, SwingConstants.RIGHT );
-        //label.setFont(labelFont);
+        if (!isHeadless)
+            label.setFont(new Font("Monospaced", Font.PLAIN, 15));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
         if (name.equals(PROFIT_LOSS))
@@ -173,11 +168,13 @@ public class ResultFrame {
 
         JTextField field = new JTextField( 30 );
         field.setEditable(false);
-        //field.setFont(numberFont);
+        if (!isHeadless)
+            field.setFont(new Font("Serif", Font.BOLD, 30));
         field.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
         field.setHorizontalAlignment(SwingConstants.CENTER);
         if (name.equals(PROFIT_LOSS)) {
-        //    field.setFont(profitFont);
+            if (!isHeadless)
+                field.setFont(new Font("Monospaced", Font.BOLD, 55));
             bottomPanel.add(field, BorderLayout.CENTER);
         } else
             rightPanel.add(field);
