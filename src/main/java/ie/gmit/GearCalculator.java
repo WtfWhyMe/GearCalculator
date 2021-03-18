@@ -1,5 +1,10 @@
 package ie.gmit;
 
+/*Sergey Moiseenko 2020
+This class stores variables for the calculation
+and preforms calculation
+*/
+
 import java.util.ArrayList;
 import java.util.List;
 
