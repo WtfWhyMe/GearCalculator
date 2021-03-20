@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestResuiltGUI {
 
+    private static final boolean runHeadlessMode = true;
     ResultFrame r;
 
     private static final String
@@ -22,31 +23,36 @@ public class TestResuiltGUI {
 
     @BeforeAll
     public static void setUpHeadlessMode() {
-        // Set system property.
-        // Call this BEFORE the toolkit has been initialized, that is,
-        // before Toolkit.getDefaultToolkit() has been called.
-        System.setProperty("java.awt.headless", "true");;
+        if (runHeadlessMode) {
+            // Set system property.
+            // Call this BEFORE the toolkit has been initialized, that is,
+            // before Toolkit.getDefaultToolkit() has been called.
+            System.setProperty("java.awt.headless", "true");
 
-        // This triggers creation of the toolkit.
-        // Because java.awt.headless property is set to true, this
-        // will be an instance of headless toolkit.
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        // Standard beep is available.
-        tk.beep();
+            // This triggers creation of the toolkit.
+            // Because java.awt.headless property is set to true, this
+            // will be an instance of headless toolkit.
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            // Standard beep is available.
+            tk.beep();
 
-        // Check whether the application is
-        // running in headless mode.
-        //boolean H = GraphicsEnvironment.isHeadless();
+            // Check whether the application is
+            // running in headless mode.
+            assert (GraphicsEnvironment.isHeadless());
+        }
     }
 
     @BeforeEach
     void setupGUI() {
-        r = new ResultFrame(true, 200,180,15,0,5);
+        r = new ResultFrame(runHeadlessMode, 200,180,15,0,5);
     }
 
     @Test
-    public void whenSetUpSuccessful_thenHeadlessIsTrue() {
-        assert(GraphicsEnvironment.isHeadless());
+    public void testHeadlessSetup() {
+        if (r.returnIsHeadless())
+            assert(GraphicsEnvironment.isHeadless());
+        else
+            assert(!GraphicsEnvironment.isHeadless());
     }
 
     @Test

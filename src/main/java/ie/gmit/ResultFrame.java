@@ -53,8 +53,8 @@ public class ResultFrame {
     private double saleDeposit = 0.0f;
     private double totalProfit = 0.0f;
 
-    //Tests whether the environment is headless
-    public static boolean isHeadless;
+    //set to true if environment is headless
+    private static boolean isHeadless;
 
     // construct default GUI
     public ResultFrame(boolean isHeadless, float gearSalePrice, float totalMaterialSaleCost, float saleCommission, float saleDeposit, float totalProfit) {
@@ -105,29 +105,25 @@ public class ResultFrame {
         setField(GEAR_SELL_DEPOSIT, String.valueOf(saleDeposit));
         setField(PROFIT_LOSS, totalProfit + " Shekels");
 
+        // Based on value in PROFIT_LOSS text field set colour
         JTextField field = (JTextField) fields.get(PROFIT_LOSS);
-
         if (totalProfit <= 0) {
            field.setBackground(Color.RED);
-        } else {
+        } else
             field.setBackground(Color.GREEN);
-        }
-
-        if (!isHeadless)
-            rightPanel.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, Color.DARK_GRAY));
 
         bottomPanel.setBackground(Color.ORANGE);
 
         if (!isHeadless) {
+            rightPanel.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, Color.DARK_GRAY));
             frame.add(topPanel);
             frame.add(bottomPanel);
 
             frame.setBounds(defaultX, defaultY, defaultWidth, defaultHeight);
 
             frame.setVisible(true);
-        } else {
+        } else
             logger.log(Level.FINE, "Skipped creating GUI");
-        }
 
         logger.log(Level.FINE, "default constructor created");
 
@@ -203,6 +199,10 @@ public class ResultFrame {
 
     public double getTotalProfit() {
         return totalProfit;
+    }
+
+    public boolean returnIsHeadless() {
+        return isHeadless;
     }
 
     private static final Logger logger =
