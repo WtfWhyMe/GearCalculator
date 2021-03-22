@@ -1,12 +1,16 @@
 package ie.gmit;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestResuiltGUI {
 
+    private static final boolean runHeadlessMode = true;
     ResultFrame r;
 
     private static final String
@@ -17,9 +21,38 @@ public class TestResuiltGUI {
             PROFIT_LOSS = "Profit / Loss";
 
 
+    @BeforeAll
+    public static void setUpHeadlessMode() {
+        if (runHeadlessMode) {
+            // Set system property.
+            // Call this BEFORE the toolkit has been initialized, that is,
+            // before Toolkit.getDefaultToolkit() has been called.
+            System.setProperty("java.awt.headless", "true");
+
+            // This triggers creation of the toolkit.
+            // Because java.awt.headless property is set to true, this
+            // will be an instance of headless toolkit.
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            // Standard beep is available.
+            tk.beep();
+
+            // Check whether the application is
+            // running in headless mode.
+            assert (GraphicsEnvironment.isHeadless());
+        }
+    }
+
     @BeforeEach
     void setupGUI() {
-        r = new ResultFrame(200,180,15,0,5);
+        r = new ResultFrame(runHeadlessMode, 200,180,15,0,5);
+    }
+
+    @Test
+    public void testHeadlessSetup() {
+        if (r.returnIsHeadless())
+            assert(GraphicsEnvironment.isHeadless());
+        else
+            assert(!GraphicsEnvironment.isHeadless());
     }
 
     @Test
